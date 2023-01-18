@@ -1,0 +1,83 @@
+<?php
+
+namespace Tests\Feature\Setting\Menu;
+
+use Tripteki\Helpers\Traits\UserFactoryTrait;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+class MenuTest extends TestCase
+{
+    use RefreshDatabase, UserFactoryTrait;
+
+    /**
+     * @return void
+     */
+    public function test_users_can_viewAny_menu()
+    {
+        $user = $this->user();
+        $this->actingAs($user);
+
+        $this->test_users_can_update_menu();
+
+        $data = $this->get(/* config("adminer.route.user") ?? */"api"."/menus");
+        $data->assertStatus(200);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_users_can_update_menu()
+    {
+        $this->post(/* config("adminer.route.admin") ?? */"api/admin"."/bars/headernavbar/menus", [
+
+            "menu" => "home",
+            "category" => "base",
+            "icon" => "md-home",
+            "title" => "Home",
+            "description" => "Home Page",
+        ]);
+        $this->post(/* config("adminer.route.admin") ?? */"api/admin"."/bars/headernavbar/menus", [
+
+            "menu" => "profile",
+            "category" => "base",
+            "icon" => "md-profile",
+            "title" => "Profile",
+            "description" => "Profile Page",
+        ]);
+
+        $user = $this->user();
+        $this->actingAs($user);
+
+        $this->post(/* config("adminer.route.user") ?? */"api"."/menus", [
+
+            "bar" => "headernavbar",
+            "menu" => "home",
+        ]);
+        $this->delete(/* config("adminer.route.user") ?? */"api"."/menus/headernavbar/home");
+        $this->post(/* config("adminer.route.user") ?? */"api"."/menus", [
+
+            "bar" => "headernavbar",
+            "menu" => "profile",
+        ]);
+        $this->post(/* config("adminer.route.user") ?? */"api"."/menus", [
+
+            "bar" => "headernavbar",
+            "menu" => "profile.home",
+        ]);
+        $this->delete(/* config("adminer.route.user") ?? */"api"."/menus/headernavbar/profile.home");
+
+        $this->post(/* config("adminer.route.user") ?? */"api"."/menus", [
+
+            "bar" => "headernavbar",
+            "menu" => "home",
+        ]);
+        $data = $this->put(/* config("adminer.route.user") ?? */"api"."/menus", [
+
+            "bar" => "headernavbar",
+            "menu_from" => "home",
+            "menu_to" => "profile",
+        ]);
+        $data->assertStatus(201);
+    }
+};
