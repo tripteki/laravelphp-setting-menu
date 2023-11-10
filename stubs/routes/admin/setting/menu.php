@@ -9,4 +9,6 @@ Route::prefix(config("adminer.route.admin"))->middleware(config("adminer.middlew
      * Settings Menus.
      */
     Route::apiResource("bars.menus", MenuAdminController::class)->parameters([ "bars" => "bar", "menus" => "menu", ]);
+    Route::post("menus-import", [ MenuAdminController::class, "import", ]);
+    Route::get("menus-export", [ MenuAdminController::class, "export", ]);
 });
