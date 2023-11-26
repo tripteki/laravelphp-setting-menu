@@ -41,7 +41,7 @@ use Tripteki\SettingMenu\Contracts\Repository\ISettingMenuRepository;
 
 $menuRepository = app(ISettingMenuDetailRepository::class);
 
-// $menuRepository->create("headernavbar", "home", [ "category" => "base", "icon" => "md-home", "title" => "Home", "description" => "Home Page", ]); //
+// $menuRepository->create("headernavbar", "home", [ "category" => null, "icon" => "md-home", "title" => "Home", "description" => "Home Page", ]); //
 // $menuRepository->delete("headernavbar", "home"); //
 // $menuRepository->update("headernavbar", "home", [ "icon" => "fa-home", ]); //
 // $menuRepository->get("headernavbar", "home"); //
