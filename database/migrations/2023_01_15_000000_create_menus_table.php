@@ -16,7 +16,7 @@ class CreateMenusTable extends Migration
             $table->string("menuable_type");
             $table->string("menuable_id");
 
-            $table->string("category");
+            $table->string("category")->nullable(true);
             $table->string("icon");
             $table->string("title");
             $table->text("description");
